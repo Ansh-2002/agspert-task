@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { ADMIN_PASSWORD, ADMIN_USERNAME } from '../constants';
 
 const AuthContext = createContext();
 
@@ -8,10 +9,16 @@ export const AuthProvider = ({ children }) => {
   );
 
   const login = (username, password) => {
-    if (username === 'admin' && password === 'password') {
-      setIsAuthenticated(true);
-      localStorage.setItem('isAuthenticated', 'true');
-    }
+   //return promise
+    return new Promise(resolve => {
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', true);
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
   };
 
   const logout = () => {

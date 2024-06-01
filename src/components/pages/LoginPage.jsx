@@ -6,6 +6,7 @@ import {
   Stack,
   FormControl,
   FormLabel,
+  useToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
@@ -15,10 +16,24 @@ const LoginPage = () => {
   const { login } = useAuth();
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const onSubmit = data => {
-    login(data.username, data.password);
-    navigate('/sale-orders');
+    console.log(data, 'data');
+    login(data.username, data.password).then(isAuthenticated => {
+      if (isAuthenticated) {
+        navigate('/sale-orders');
+      } else {
+        toast({
+          title: 'Invalid credentials',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    });
+
+    // navigate('/sale-orders');
   };
 
   return (

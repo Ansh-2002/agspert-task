@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
 
-const ActiveSaleOrders = () => {
+const CompletedSaleOrders = () => {
   const orders = [
     {
       id: 1,
@@ -29,6 +29,7 @@ const ActiveSaleOrders = () => {
 
   return (
     <Box overflowX="auto">
+        completed
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -61,4 +62,4 @@ const ActiveSaleOrders = () => {
   );
 };
 
-export default ActiveSaleOrders;
+export default CompletedSaleOrders;
