@@ -17,6 +17,8 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useGlobal } from '../context/GlobalContext';
 
 const products = [
   { value: 'product1', label: 'Product 1' },
@@ -25,6 +27,8 @@ const products = [
 ];
 
 const SaleOrderForm = ({ isOpen, onClose, defaultValues }) => {
+  const queryClient = useQueryClient();
+  const [loading, setLoading] = useState(false);
   const { handleSubmit, control, watch } = useForm({
     defaultValues: defaultValues || {
       customer_id: '',
@@ -41,10 +45,38 @@ const SaleOrderForm = ({ isOpen, onClose, defaultValues }) => {
   });
 
   const selectedProducts = watch('selectedProducts');
+  const { setProducts } = useGlobal();
 
   const onSubmit = data => {
-    console.log('Form submitted:', data);
-    onClose();
+    // Mimic API call
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      queryClient.invalidateQueries('saleOrders');
+      setProducts(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          customerName: 'Sale Order',
+          price: data.items.reduce(
+            (acc, item) => acc + item.quantity * item.rate,
+            0
+          ),
+          lastModified: new Date().toLocaleString(),
+
+          ...data,
+          items: data.items.map(item => ({
+            ...item,
+            product: selectedProducts.find(
+              p => p.value === item.product
+            )?.label,
+          })),
+        },
+      ]);
+
+
+      onClose();
+    }, 1000);
   };
 
   return (
@@ -140,9 +172,15 @@ const SaleOrderForm = ({ isOpen, onClose, defaultValues }) => {
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit(onSubmit)}>
-            Submit
+          <Button
+            colorScheme="teal"
+            isLoading={loading}
+            type="submit"
+            onClick={handleSubmit(onSubmit)}
+          >
+            Save
           </Button>
+
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>

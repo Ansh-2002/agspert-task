@@ -11,6 +11,14 @@ import App from './App';
 import LoginPage from './components/pages/LoginPage';
 import SaleOrdersPage from './components/pages/SaleOrdersPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query';
+import { GlobalProvider } from './context/GlobalContext';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -41,9 +49,13 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChakraProvider>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </GlobalProvider>
+      </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

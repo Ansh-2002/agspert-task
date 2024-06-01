@@ -42,11 +42,11 @@ const SaleOrdersPage = () => {
           // onClick={onOpen}
           onClick={handleOpen}
         >
-          + Sale Order
+          Sale Order
         </Button>
       </HStack>
       {activeTab === 'active' ? <ActiveSaleOrders /> : <CompletedSaleOrders />}
-      {isOpen && <SaleOrderForm  isOpen={isModalOpen} onClose={handleClose} />}
+      <SaleOrderForm isOpen={isModalOpen} onClose={handleClose} />
     </Box>
   );
 };

@@ -17,19 +17,19 @@ const CompletedSaleOrders = () => {
       id: 1,
       customerName: 'Spider',
       price: '₹100',
-      lastModified: '24/5/2024 (11:07 PM)',
+      lastModified: '20/5/2024 (1:07 PM)',
     },
     {
       id: 2,
       customerName: 'Spider',
       price: '₹210',
-      lastModified: '24/5/2024 (11:30 PM)',
+      lastModified: '23/5/2024 (11:31 PM)',
     },
   ];
 
   return (
     <Box overflowX="auto">
-        completed
+        {/* completed */}
       <Table variant="simple">
         <Thead>
           <Tr>

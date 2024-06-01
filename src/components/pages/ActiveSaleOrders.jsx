@@ -8,25 +8,20 @@ import {
   Th,
   Td,
   IconButton,
+  Spinner,
 } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
+import useProductsData from '../../hooks/useProductsData';
 
 const ActiveSaleOrders = () => {
-  const orders = [
-    {
-      id: 1,
-      customerName: 'Spider',
-      price: '₹100',
-      lastModified: '24/5/2024 (11:07 PM)',
-    },
-    {
-      id: 2,
-      customerName: 'Spider',
-      price: '₹210',
-      lastModified: '24/5/2024 (11:30 PM)',
-    },
-  ];
-
+  const orders = useProductsData();
+if (!orders || orders.length === 0) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" >
+        <Spinner />
+      </Box>
+    );
+  }
   return (
     <Box overflowX="auto">
       <Table variant="simple">
